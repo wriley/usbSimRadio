@@ -6,6 +6,7 @@ using HID;
 using System.Threading;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.ComponentModel;
 
 namespace usbSimRadio
 {
@@ -15,8 +16,7 @@ namespace usbSimRadio
         Hid _MyHID = new Hid();
         DeviceManagement _MyDeviceManagement = new DeviceManagement();
         HID.Debugging _MyDebugging = new HID.Debugging();
-        string DevicePath;
-        int DeviceID;
+        int DeviceID = 1;
         Thread thread;
         bool terminated;
         string _MyDevicePathName;
@@ -31,13 +31,7 @@ namespace usbSimRadio
         int OFFSET_FREQ_STANDBY = 4;
         int OFFSET_BUTTONS = 6;
 
-        public usbSimRadio(string p, int i)
-        {
-            this.DevicePath = p;
-            this.DeviceID = i;
-        }
-
-        private void FindRadio()
+        public void FindRadio()
         {
             bool DeviceFound = false;
             string[] DevicePathName = new string[128];
@@ -264,7 +258,7 @@ namespace usbSimRadio
                 }
 
                 inputReport.Read(_ReadHandle, _HIDHandle, ref _MyDeviceDetected, ref buffer, ref Success);
-                
+
                 if (Success && buffer != null && buffer.Length == _MyHID.Capabilities.InputReportByteLength)
                 {
                     HandleInput(ref buffer);
@@ -274,15 +268,15 @@ namespace usbSimRadio
 
         private void HandleInput(ref byte[] input)
         {
-/*
-input[]
-Start	Size	Description
-0       1       Dummy Report ID
-1	    1	    TypeID
-2	    2	    Active Frequency
-4	    2	    Standby Frequency
-6	    2	    Button State
-*/
+            /*
+            input[]
+            Start	Size	Description
+            0       1       Dummy Report ID
+            1	    1	    TypeID
+            2	    2	    Active Frequency
+            4	    2	    Standby Frequency
+            6	    2	    Button State
+            */
             this.FrequencyActive = BytesToFreq(ref input[OFFSET_FREQ_ACTIVE], ref input[input[OFFSET_FREQ_ACTIVE + 1]]);
             this.FrequencyStandby = BytesToFreq(ref input[OFFSET_FREQ_STANDBY], ref input[OFFSET_FREQ_STANDBY + 1]);
             this.Buttons[0] = input[OFFSET_BUTTONS];

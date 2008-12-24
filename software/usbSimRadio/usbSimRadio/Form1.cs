@@ -15,25 +15,11 @@ namespace usbSimRadio
 {
     public partial class usbSimRadioForm : Form
     {
-        usbSimDevices devices = new usbSimDevices();
+        usbSimRadio radio;
 
         public usbSimRadioForm()
         {
             InitializeComponent();
-        }
-
-        public void FindDevices()
-        {
-            
-            devices.FindDevices();
-            listBoxDevices.Items.Clear();
-            for(int i = 0; i < devices.MyDevices.Length; i++)
-            {
-                if (devices.MyDevices[i].DeviceID > 0)
-                {
-                    listBoxDevices.Items.Add(devices.MyDevices[i].DeviceID.ToString());
-                }
-            }
         }
 
         private void buttonExit_Click(object sender, EventArgs e)
@@ -43,12 +29,11 @@ namespace usbSimRadio
 
         private void usbSimRadioForm_Load(object sender, EventArgs e)
         {
-            FindDevices();
+            radio = new usbSimRadio();
         }
 
         private void listBoxDevices_SelectedIndexChanged(object sender, EventArgs e)
         {
-            labelDevicePath.Text = devices.getDevicePathFromID(int.Parse(listBoxDevices.Items[listBoxDevices.SelectedIndex].ToString()));
         }
 
         private void FreqActive1_ValueChanged(object sender, EventArgs e)
@@ -69,6 +54,11 @@ namespace usbSimRadio
         private void FreqStandby2_ValueChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void buttonRefresh_Click(object sender, EventArgs e)
+        {
+            radio.FindRadio();
         }
     }
 }

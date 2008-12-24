@@ -37,6 +37,7 @@
             this.labelStandby = new System.Windows.Forms.Label();
             this.FreqStandby2 = new System.Windows.Forms.NumericUpDown();
             this.FreqStandby1 = new System.Windows.Forms.NumericUpDown();
+            this.buttonRefresh = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.FreqActive1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FreqActive2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FreqStandby2)).BeginInit();
@@ -177,11 +178,22 @@
             0});
             this.FreqStandby1.ValueChanged += new System.EventHandler(this.FreqStandby1_ValueChanged);
             // 
+            // buttonRefresh
+            // 
+            this.buttonRefresh.Location = new System.Drawing.Point(403, 113);
+            this.buttonRefresh.Name = "buttonRefresh";
+            this.buttonRefresh.Size = new System.Drawing.Size(75, 23);
+            this.buttonRefresh.TabIndex = 9;
+            this.buttonRefresh.Text = "Refresh";
+            this.buttonRefresh.UseVisualStyleBackColor = true;
+            this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
+            // 
             // usbSimRadioForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(490, 357);
+            this.Controls.Add(this.buttonRefresh);
             this.Controls.Add(this.labelStandby);
             this.Controls.Add(this.FreqStandby2);
             this.Controls.Add(this.FreqStandby1);
@@ -214,6 +226,7 @@
         private System.Windows.Forms.Label labelStandby;
         private System.Windows.Forms.NumericUpDown FreqStandby2;
         private System.Windows.Forms.NumericUpDown FreqStandby1;
+        private System.Windows.Forms.Button buttonRefresh;
     }
 }
 
