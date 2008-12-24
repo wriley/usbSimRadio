@@ -25,6 +25,10 @@ at least be connected to INT0 as well.
 #include "usbdrv.h"
 #include "oddebug.h"        /* This is also an example for using debug macros */
 
+#define PHASE_A		(PINB & 1<<PB1)
+#define PHASE_B		(PINB & 1<<PB2)
+#define	XTAL		12e6			// 12MHz
+
 /* ------------------------------------------------------------------------- */
 /* ----------------------------- USB interface ----------------------------- */
 /* ------------------------------------------------------------------------- */
@@ -36,7 +40,7 @@ PROGMEM char usbHidReportDescriptor[22] = {    /* USB report descriptor */
     0x15, 0x00,                    //   LOGICAL_MINIMUM (0)
     0x26, 0xff, 0x00,              //   LOGICAL_MAXIMUM (255)
     0x75, 0x08,                    //   REPORT_SIZE (8)
-    0x95, 0x10,                    //   REPORT_COUNT (16)
+    0x95, 0x08,                    //   REPORT_COUNT (8)
     0x09, 0x00,                    //   USAGE (Undefined)
     0xb2, 0x02, 0x01,              //   FEATURE (Data,Var,Abs,Buf)
     0xc0                           // END_COLLECTION
@@ -46,9 +50,41 @@ PROGMEM char usbHidReportDescriptor[22] = {    /* USB report descriptor */
  * opaque data bytes.
  */
 
-/* The following variables store the status of the current data transfer */
-static uchar    currentAddress;
-static uchar    bytesRemaining;
+static int8_t currentState[8];
+
+void freqChange(uchar i, uchar c, uchar min, uchar max)
+{
+	uchar curr = currentState[i];
+	curr += c;
+	if(curr > max)
+	{
+		currentState[i] = max;
+	}
+	else if(curr < min)
+	{
+		currentState[i] = min;
+	}
+	else
+	{
+		currentState[i] = curr;
+	}
+}
+
+void dataRead(uchar *data)
+{
+	for(int i = 0; i < 8; i++)
+	{
+		data[i] = currentState[i];
+	}
+}
+
+void dataWrite(uchar *data)
+{
+for(int i = 0; i < 8; i++)
+	{
+		currentState[i] = data[i];
+	}
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -57,12 +93,9 @@ static uchar    bytesRemaining;
  */
 uchar   usbFunctionRead(uchar *data, uchar len)
 {
-    if(len > bytesRemaining)
-        len = bytesRemaining;
-    eeprom_read_block(data, (uchar *)0 + currentAddress, len);
-    currentAddress += len;
-    bytesRemaining -= len;
-    return len;
+	PORTB ^= 0x01;
+	dataRead(data);
+   	return len;
 }
 
 /* usbFunctionWrite() is called when the host sends a chunk of data to the
@@ -70,14 +103,8 @@ uchar   usbFunctionRead(uchar *data, uchar len)
  */
 uchar   usbFunctionWrite(uchar *data, uchar len)
 {
-    if(bytesRemaining == 0)
-        return 1;               /* end of transfer */
-    if(len > bytesRemaining)
-        len = bytesRemaining;
-    eeprom_write_block(data, (uchar *)0 + currentAddress, len);
-    currentAddress += len;
-    bytesRemaining -= len;
-    return bytesRemaining == 0; /* return 1 if this was the last chunk */
+	dataWrite(data);
+	return 1;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -88,13 +115,9 @@ usbRequest_t    *rq = (void *)data;
     if((rq->bmRequestType & USBRQ_TYPE_MASK) == USBRQ_TYPE_CLASS){    /* HID class request */
         if(rq->bRequest == USBRQ_HID_GET_REPORT){  /* wValue: ReportType (highbyte), ReportID (lowbyte) */
             /* since we have only one report type, we can ignore the report-ID */
-            bytesRemaining = 16;
-            currentAddress = 0;
             return USB_NO_MSG;  /* use usbFunctionRead() to obtain data */
         }else if(rq->bRequest == USBRQ_HID_SET_REPORT){
             /* since we have only one report type, we can ignore the report-ID */
-            bytesRemaining = 16;
-            currentAddress = 0;
             return USB_NO_MSG;  /* use usbFunctionWrite() to receive data from host */
         }
     }else{
@@ -104,6 +127,79 @@ usbRequest_t    *rq = (void *)data;
 }
 
 /* ------------------------------------------------------------------------- */
+
+volatile int8_t enc_delta;			// -128 ... 127
+static int8_t last;
+ 
+ 
+void encode_init( void )
+{
+  int8_t new;
+ 
+  new = 0;
+  if( PHASE_A )
+    new = 3;
+  if( PHASE_B )
+    new ^= 1;					// convert gray to binary
+  last = new;					// power on state
+  enc_delta = 0;
+  TCCR0 = 0<<CS02^1<<CS01^1<<CS00;		// CTC, XTAL / 64
+  OCR1B = (uint8_t)(XTAL / 64.0 * 1e-3 - 0.5);	// 1ms
+  TIMSK |= 1<<TOIE0;
+}
+ 
+ 
+ISR( SIG_OVERFLOW0 )				// 1ms for manual movement
+{
+  int8_t new, diff;
+ 
+  new = 0;
+  if( PHASE_A )
+    new = 3;
+  if( PHASE_B )
+    new ^= 1;					// convert gray to binary
+  diff = last - new;				// difference last - new
+  if( diff & 1 ){				// bit 0 = value (1)
+    last = new;					// store new as next last
+    enc_delta += (diff & 2) - 1;		// bit 1 = direction (+/-)
+  }
+}
+ 
+ 
+int8_t encode_read1( void )			// read single step encoders
+{
+  int8_t val;
+ 
+  cli();
+  val = enc_delta;
+  enc_delta = 0;
+  sei();
+  return val;					// counts since last call
+}
+ 
+ 
+int8_t encode_read2( void )			// read two step encoders
+{
+  int8_t val;
+ 
+  cli();
+  val = enc_delta;
+  enc_delta = val & 1;
+  sei();
+  return val >> 1;
+}
+ 
+ 
+int8_t encode_read4( void )			// read four step encoders
+{
+  int8_t val;
+ 
+  cli();
+  val = enc_delta;
+  enc_delta = val & 3;
+  sei();
+  return val >> 2;
+}
 
 int main(void)
 {
@@ -120,6 +216,7 @@ uchar   i;
      */
     odDebugInit();
     usbInit();
+	encode_init();
     usbDeviceDisconnect();  /* enforce re-enumeration, do this while interrupts are disabled! */
     i = 0;
     while(--i){             /* fake USB disconnect for > 250 ms */
@@ -129,10 +226,25 @@ uchar   i;
     usbDeviceConnect();
     sei();
     DBG1(0x01, 0, 0);       /* debug output: main loop starts */
+
+	currentState[0] = 1;
+	currentState[1] = 120;
+	currentState[2] = 35;
+	currentState[3] = 129;
+	currentState[4] = 60;
+	currentState[5] = 0x0f;
+	currentState[6] = 0xf0;
+	currentState[7] = 0;
+
+	DDRB = 0x00;
+	DDRB ^= 0x01;
+	PORTB = 0xff;
+
     for(;;){                /* main event loop */
         DBG1(0x02, 0, 0);   /* debug output: main loop iterates */
         wdt_reset();
         usbPoll();
+		freqChange(1, encode_read2(), 118, 136);
     }
     return 0;
 }
