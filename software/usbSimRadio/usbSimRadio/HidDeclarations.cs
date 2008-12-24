@@ -1,7 +1,27 @@
+/*****************************************************************************
+*                                                                            *
+* HID USB DRIVER - FLORIAN LEITNER                                           *
+* Copyright 2007 - Florian Leitner | http://www.florian-leitner.de           *
+* mail@florian-leitner.de                                                    *
+*                                                                            *   
+* This file is part of HID USB DRIVER.                                       *
+*                                                                            *
+*   HID USB DRIVER is free software; you can redistribute it and/or modify   *
+*   it under the terms of the GNU General Public License 3.0 as published by *
+*   the Free Software Foundation;                                            *
+*   HID USB DRIVER is distributed in the hope that it will be useful,        *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of           *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            *
+*   GNU General Public License for more details.                             *
+*   You should have received a copy of the GNU General Public License        *
+*   along with this program.  If not, see <http://www.gnu.org/licenses/>.    *
+*                                                                            *
+******************************************************************************/
+//---------------------------------------------------------------------------
 using System;
 using System.Runtime.InteropServices;
 
-namespace HID
+namespace usbSimRadio
 {
 	
 	sealed class HidApiDeclarations
@@ -27,8 +47,8 @@ namespace HID
     public struct HIDD_ATTRIBUTES
 		{
 			public int Size;
-			public ushort VendorID;
-			public ushort ProductID;
+			public short VendorID;
+			public short ProductID;
 			public short VersionNumber;
 		}
 		
@@ -107,9 +127,9 @@ namespace HID
 		
 		[DllImport("hid.dll")]
     static public extern int HidD_GetAttributes(int HidDeviceObject, ref HIDD_ATTRIBUTES Attributes);
-		
-		[DllImport("hid.dll")]
-    static public extern bool HidD_GetFeature(int HidDeviceObject, ref byte lpReportBuffer, int ReportBufferLength);
+
+        [DllImport("hid.dll", SetLastError = true)]
+    static public extern bool HidD_GetFeature(int HidDeviceObject, byte[] lpReportBuffer, int ReportBufferLength);
 		
 		[DllImport("hid.dll")]
     static public extern bool HidD_GetInputReport(int HidDeviceObject, ref byte lpReportBuffer, int ReportBufferLength);
@@ -122,9 +142,9 @@ namespace HID
 		
 		[DllImport("hid.dll")]
     static public extern bool HidD_GetPreparsedData(int HidDeviceObject, ref IntPtr PreparsedData);
-		
-		[DllImport("hid.dll")]
-    static public extern bool HidD_SetFeature(int HidDeviceObject, ref byte lpReportBuffer, int ReportBufferLength);
+
+        [DllImport("hid.dll", SetLastError = true)]
+    static public extern bool HidD_SetFeature(int HidDeviceObject, byte[] lpReportBuffer, int ReportBufferLength);
 		
 		[DllImport("hid.dll")]
     static public extern bool HidD_SetNumInputBuffers(int HidDeviceObject, int NumberBuffers);
@@ -139,10 +159,13 @@ namespace HID
     static public extern int HidP_GetValueCaps(short ReportType, ref byte ValueCaps, ref short ValueCapsLength, IntPtr PreparsedData);
 
         [DllImport("hid.dll")]
-    static public extern bool HidD_GetManufacturerString(int HidDeviceObject, ref byte lpReportBuffer, int ReportBufferLength);
+    static public extern bool HidD_GetManufacturerString(int HidDeviceObject, byte[] lpReportBuffer, int ReportBufferLength);
 
         [DllImport("hid.dll")]
-    static public extern bool HidD_GetProductString(int HidDeviceObject, ref byte lpReportBuffer, int ReportBufferLength);
+    static public extern bool HidD_GetProductString(int HidDeviceObject, byte[] lpReportBuffer, int ReportBufferLength);
+
+        [DllImport("hid.dll")]
+    static public extern bool HidD_GetSerialNumberString(int HidDeviceObject, byte[] lpReportBuffer, int ReportBufferLength);
 
 	}
 	

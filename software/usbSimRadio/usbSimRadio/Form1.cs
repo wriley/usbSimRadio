@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using HID;
 using System.Diagnostics;
 using usbSimRadio;
 
@@ -30,10 +29,16 @@ namespace usbSimRadio
         private void usbSimRadioForm_Load(object sender, EventArgs e)
         {
             radio = new usbSimRadio();
+            listBoxDevices.Items.Clear();
+            if (radio.DeviceDetected())
+            {
+                listBoxDevices.Items.Add(radio.GetProductName());
+            }
         }
 
         private void listBoxDevices_SelectedIndexChanged(object sender, EventArgs e)
         {
+
         }
 
         private void FreqActive1_ValueChanged(object sender, EventArgs e)
@@ -58,7 +63,27 @@ namespace usbSimRadio
 
         private void buttonRefresh_Click(object sender, EventArgs e)
         {
-            radio.FindRadio();
+            listBoxDevices.Items.Clear();
+            if (radio.DeviceDetected())
+            {
+                listBoxDevices.Items.Add(radio.GetProductName());
+            }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            float freqActive = radio.GetFrequencyActive();
+            float freqStandby = radio.GetFrequencyStandby();
+
+            string[] pieces = new string[2];
+            pieces = freqActive.ToString().Split('.');
+            FreqActive1.Value = int.Parse(pieces[0]);
+            FreqActive2.Value = int.Parse(pieces[1]);
+
+            pieces = freqStandby.ToString().Split('.');
+            FreqStandby1.Value = int.Parse(pieces[0]);
+            FreqStandby2.Value = int.Parse(pieces[1]);
+
         }
     }
 }

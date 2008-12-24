@@ -16,6 +16,7 @@
             if (disposing && (components != null))
             {
                 components.Dispose();
+                radio.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -28,6 +29,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.buttonExit = new System.Windows.Forms.Button();
             this.listBoxDevices = new System.Windows.Forms.ListBox();
             this.labelDevicePath = new System.Windows.Forms.Label();
@@ -38,6 +40,7 @@
             this.FreqStandby2 = new System.Windows.Forms.NumericUpDown();
             this.FreqStandby1 = new System.Windows.Forms.NumericUpDown();
             this.buttonRefresh = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.FreqActive1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FreqActive2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FreqStandby2)).BeginInit();
@@ -78,12 +81,7 @@
             // 
             this.FreqActive1.Location = new System.Drawing.Point(64, 7);
             this.FreqActive1.Maximum = new decimal(new int[] {
-            136,
-            0,
-            0,
-            0});
-            this.FreqActive1.Minimum = new decimal(new int[] {
-            118,
+            999,
             0,
             0,
             0});
@@ -188,6 +186,11 @@
             this.buttonRefresh.UseVisualStyleBackColor = true;
             this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
             // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // usbSimRadioForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -227,6 +230,7 @@
         private System.Windows.Forms.NumericUpDown FreqStandby2;
         private System.Windows.Forms.NumericUpDown FreqStandby1;
         private System.Windows.Forms.Button buttonRefresh;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 
