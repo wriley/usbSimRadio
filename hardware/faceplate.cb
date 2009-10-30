@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CADFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="faceplate.dxf" units="Inches">
+  <layers>
+    <layer name="0" color="255,255,255">
+      <mat />
+      <objects>
+        <points id="12">
+          <mat />
+          <pts>
+            <p>0.625,0.46875</p>
+          </pts>
+        </points>
+        <points id="13">
+          <mat />
+          <pts>
+            <p>3.75,0.46875</p>
+          </pts>
+        </points>
+        <points id="14">
+          <mat />
+          <pts>
+            <p>4.5,0.2265625</p>
+          </pts>
+        </points>
+        <points id="15">
+          <mat />
+          <pts>
+            <p>1.375,0.2265625</p>
+          </pts>
+        </points>
+        <points id="16">
+          <mat />
+          <pts>
+            <p>3.125,0.296875</p>
+          </pts>
+        </points>
+        <points id="17">
+          <mat />
+          <pts>
+            <p>2.375,0.5625</p>
+          </pts>
+        </points>
+        <points id="18">
+          <mat />
+          <pts>
+            <p>5.5,0.5625</p>
+          </pts>
+        </points>
+      </objects>
+    </layer>
+    <layer name="Cutouts" color="0,0,255">
+      <mat />
+      <objects>
+        <pline id="1" Closed="true">
+          <mat />
+          <pts>
+            <p>4E-16,2.05,0</p>
+            <p>6.25,2.05,0</p>
+            <p>6.25,4E-16,0</p>
+            <p>4E-16,4E-16,0</p>
+          </pts>
+        </pline>
+        <pline id="2" Closed="true">
+          <mat />
+          <pts>
+            <p>0.1484375,1.8359375,0</p>
+            <p>6.1015625,1.8359375,0</p>
+            <p>6.1015625,1.09375,0</p>
+            <p>0.1484375,1.09375,0</p>
+          </pts>
+        </pline>
+        <pline id="3" Closed="true">
+          <mat />
+          <pts>
+            <p>1.15625,0.78125,0</p>
+            <p>1.59375,0.78125,0</p>
+            <p>1.59375,0.53125,0</p>
+            <p>1.15625,0.53125,0</p>
+          </pts>
+        </pline>
+        <pline id="4" Closed="true">
+          <mat />
+          <pts>
+            <p>4.28125,0.78125,0</p>
+            <p>4.71875,0.78125,0</p>
+            <p>4.71875,0.53125,0</p>
+            <p>4.28125,0.53125,0</p>
+          </pts>
+        </pline>
+        <circle id="5" c="0.625,0.46875,0" d="0.25">
+          <mat />
+        </circle>
+        <circle id="6" c="2.375,0.5625,0" d="0.275595">
+          <mat />
+        </circle>
+        <circle id="7" c="5.5,0.5625,0" d="0.27560000000000079">
+          <mat />
+        </circle>
+        <circle id="8" c="3.75,0.46875,0" d="0.25">
+          <mat />
+        </circle>
+        <circle id="9" c="1.375,0.2265625,0" d="0.125">
+          <mat />
+        </circle>
+        <circle id="10" c="4.5,0.2265625,0" d="0.125">
+          <mat />
+        </circle>
+        <circle id="11" c="3.125,0.296875,0" d="0.125">
+          <mat />
+        </circle>
+      </objects>
+    </layer>
+  </layers>
+  <MachiningOptions>
+    <OutFile>C:\Documents and Settings\wriley\My Documents\Projects\usbSimRadio\hardware\faceplate.nc</OutFile>
+    <SplineCurveSteps>12</SplineCurveSteps>
+    <TextCurveSteps>5</TextCurveSteps>
+  </MachiningOptions>
+  <machineops>
+    <mop xsi:type="MOPProfile">
+      <ToolDiameter>0.125</ToolDiameter>
+      <PlungeFeedrate>2</PlungeFeedrate>
+      <CutFeedrate>7</CutFeedrate>
+      <ClearancePlane>0.01</ClearancePlane>
+      <primitive>
+        <prim>2</prim>
+      </primitive>
+      <mat />
+      <StockSurface>0</StockSurface>
+      <TargetDepth>-0.251</TargetDepth>
+      <DepthIncrement>0.02</DepthIncrement>
+      <FinalDepthIncrement>0</FinalDepthIncrement>
+      <CutWidth>0</CutWidth>
+      <StepOver>0.4</StepOver>
+      <InsideOutside>Inside</InsideOutside>
+    </mop>
+    <mop xsi:type="MOPProfile">
+      <ToolDiameter>0.125</ToolDiameter>
+      <PlungeFeedrate>2</PlungeFeedrate>
+      <CutFeedrate>7</CutFeedrate>
+      <ClearancePlane>0.01</ClearancePlane>
+      <primitive>
+        <prim>1</prim>
+      </primitive>
+      <mat />
+      <StockSurface>0</StockSurface>
+      <TargetDepth>-0.251</TargetDepth>
+      <DepthIncrement>0.02</DepthIncrement>
+      <FinalDepthIncrement>0</FinalDepthIncrement>
+      <CutWidth>0</CutWidth>
+      <StepOver>0.4</StepOver>
+    </mop>
+    <mop xsi:type="MOPProfile">
+      <ToolDiameter>0.125</ToolDiameter>
+      <PlungeFeedrate>2</PlungeFeedrate>
+      <CutFeedrate>7</CutFeedrate>
+      <ClearancePlane>0.01</ClearancePlane>
+      <primitive>
+        <prim>3</prim>
+      </primitive>
+      <mat />
+      <StockSurface>0</StockSurface>
+      <TargetDepth>-0.251</TargetDepth>
+      <DepthIncrement>0.02</DepthIncrement>
+      <FinalDepthIncrement>0</FinalDepthIncrement>
+      <CutWidth>0</CutWidth>
+      <StepOver>0.4</StepOver>
+      <InsideOutside>Inside</InsideOutside>
+    </mop>
+    <mop xsi:type="MOPProfile">
+      <ToolDiameter>0.125</ToolDiameter>
+      <PlungeFeedrate>2</PlungeFeedrate>
+      <CutFeedrate>7</CutFeedrate>
+      <ClearancePlane>0.01</ClearancePlane>
+      <primitive>
+        <prim>4</prim>
+      </primitive>
+      <mat />
+      <StockSurface>0</StockSurface>
+      <TargetDepth>-0.251</TargetDepth>
+      <DepthIncrement>0.02</DepthIncrement>
+      <FinalDepthIncrement>0</FinalDepthIncrement>
+      <CutWidth>0</CutWidth>
+      <StepOver>0.4</StepOver>
+      <InsideOutside>Inside</InsideOutside>
+    </mop>
+    <mop xsi:type="MOPDrill">
+      <ToolDiameter>0.125</ToolDiameter>
+      <PlungeFeedrate>2</PlungeFeedrate>
+      <CutFeedrate>7</CutFeedrate>
+      <ClearancePlane>0.01</ClearancePlane>
+      <primitive>
+        <prim>12</prim>
+        <prim>13</prim>
+      </primitive>
+      <mat />
+      <StockSurface>0</StockSurface>
+      <TargetDepth>-0.251</TargetDepth>
+      <HoleDiameter>0.25</HoleDiameter>
+      <DrillingMethod>SpiralMill_CW</DrillingMethod>
+      <CustomScript />
+    </mop>
+    <mop xsi:type="MOPDrill">
+      <ToolDiameter>0.125</ToolDiameter>
+      <PlungeFeedrate>2</PlungeFeedrate>
+      <CutFeedrate>7</CutFeedrate>
+      <ClearancePlane>0.01</ClearancePlane>
+      <primitive>
+        <prim>14</prim>
+        <prim>15</prim>
+        <prim>16</prim>
+      </primitive>
+      <mat />
+      <StockSurface>0</StockSurface>
+      <TargetDepth>-0.251</TargetDepth>
+      <CustomScript />
+    </mop>
+    <mop xsi:type="MOPDrill">
+      <ToolDiameter>0.125</ToolDiameter>
+      <PlungeFeedrate>2</PlungeFeedrate>
+      <CutFeedrate>7</CutFeedrate>
+      <ClearancePlane>0.01</ClearancePlane>
+      <primitive>
+        <prim>17</prim>
+        <prim>18</prim>
+      </primitive>
+      <mat />
+      <StockSurface>0</StockSurface>
+      <TargetDepth>-0.251</TargetDepth>
+      <HoleDiameter>0.275595</HoleDiameter>
+      <DrillingMethod>SpiralMill_CW</DrillingMethod>
+      <CustomScript />
+    </mop>
+  </machineops>
+  <ActiveLayer>0</ActiveLayer>
+</CADFile>
