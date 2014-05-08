@@ -76,14 +76,19 @@ namespace usbSimRadio
             float freqStandby = radio.GetFrequencyStandby();
 
             string[] pieces = new string[2];
-            pieces = freqActive.ToString().Split('.');
-            FreqActive1.Value = int.Parse(pieces[0]);
-            FreqActive2.Value = int.Parse(pieces[1]);
+            pieces = freqActive.ToString("000.000").Split('.');
+            if (pieces.Length == 2)
+            {
+                FreqActive1.Value = int.Parse(pieces[0]);
+                FreqActive2.Value = int.Parse(pieces[1]);
+            }
 
-            pieces = freqStandby.ToString().Split('.');
-            FreqStandby1.Value = int.Parse(pieces[0]);
-            FreqStandby2.Value = int.Parse(pieces[1]);
-
+            pieces = freqStandby.ToString("000.000").Split('.');
+            if (pieces.Length == 2)
+            {
+                FreqStandby1.Value = int.Parse(pieces[0]);
+                FreqStandby2.Value = int.Parse(pieces[1]);
+            }
         }
     }
 }

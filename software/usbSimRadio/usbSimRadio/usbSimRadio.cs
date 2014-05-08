@@ -6,12 +6,13 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
+using USBSharp;
 
 namespace usbSimRadio
 {
     public class usbSimRadio : Control
     {
-        USBSharp usb = new USBSharp();
+        USBSharp.USBSharp usb = new USBSharp.USBSharp();
         Thread thread;
         bool terminated;
         bool _MyDeviceDetected;
