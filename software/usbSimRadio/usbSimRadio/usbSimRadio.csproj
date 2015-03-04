@@ -73,8 +73,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="USBSharp">
+    <Reference Include="USBSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\usbSharp\USBSharp\bin\Release\USBSharp.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
     </Reference>
   </ItemGroup>
   <ItemGroup>
