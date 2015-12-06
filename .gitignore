@@ -1,3 +1,4 @@
 software/usbSimRadio/usbSimRadio/bin
 software/usbSimRadio/usbSimRadio/obj
 pcb/*.bak
+pcb/library/*.bak
