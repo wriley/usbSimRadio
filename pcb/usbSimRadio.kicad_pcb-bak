@@ -520,9 +520,9 @@
     (pad 1 thru_hole circle (at 0 0) (size 3 3) (drill 3) (layers))
   )
 
-  (module wriley-custom:TQFP44_08 (layer F.Cu) (tedit 5664B9BA) (tstamp 5664B52E)
+  (module wriley-custom:TQFP44_08 (layer F.Cu) (tedit 5664B96C) (tstamp 5664B52E)
     (at 120.5 68.5)
-    (fp_text reference TQFP44 (at 0.0762 -1.9812) (layer F.SilkS)
+    (fp_text reference TQFP44_08 (at 0.0762 -1.9812) (layer F.SilkS)
       (effects (font (size 1.016 0.889) (thickness 0.2032)))
     )
     (fp_text value IC1 (at 0.4064 2.2352) (layer F.SilkS)
